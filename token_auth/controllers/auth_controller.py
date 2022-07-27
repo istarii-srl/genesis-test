@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class AuthController(http.Controller):
 
-    @http.route("/auth/token_authenticate", type="http", auth="public", csrf=False, cors="*")
+    @http.route("/auth/login", type="http", auth="public", csrf=False, cors="*")
     def get_auth(self, **kwarg):
         _logger.info("CONTROLLER LOGIN => get auth")
         email = request.params["email"]
