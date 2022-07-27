@@ -16,15 +16,16 @@
     # for the full list
     'category': 'ERP',
     'license': 'OPL-1',
-    'version': '15.0.0.0',
+    'version': '15.0.0.1',
 
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'token_auth'],
+    'depends': ['base', 'token_auth', 'project', 'hr_holidays', 'hr', 'timesheet_grid'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/project.xml'
     ],
     'qweb': [
     ],

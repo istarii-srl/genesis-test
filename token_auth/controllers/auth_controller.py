@@ -19,9 +19,9 @@ class AuthController(http.Controller):
             request.session.db, email, password)
         if uid:
             res_user = request.env["res.users"].browse(request.uid)
-            user = res_user.partner_id
+            partner_id = res_user.partner_id
 
-            if user:
+            if partner_id:
                 token = request.env["auth.token"].sudo().search([("user_id", "=", uid)], limit=1)
 
                 if token and token.has_expired():
@@ -32,8 +32,7 @@ class AuthController(http.Controller):
                     _logger.info("NO TOKEN")
                     token = request.env["auth.token"].sudo().create({"user_id": uid, "token": AuthToken.jwt_creator(user.id, uid, request.session.sid)})
 
-                user = user.to_map()
-                user["token"] = token.to_map()
+                user = self._prepare_user_data(partner_id, token)
 
                 _logger.info("TOKEN => " + str(AuthToken.decode(token.token)))
                 _logger.info("USER => " + str(user))
@@ -51,17 +50,22 @@ class AuthController(http.Controller):
         if request.httprequest.headers["Authorization"]:
             token = AuthToken.decode(request.httprequest.headers["Authorization"])
 
-            logged = request.env["res.users"].sudo().browse(token["uid"]).partner_id
+            partner_id = request.env["res.users"].sudo().browse(token["uid"]).partner_id
 
-            if logged:
-                token_db = request.env["auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
-                user = logged.to_map()
-                user["token"] = token_db.to_map()
+            if partner_id:
+                token = request.env["auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
+                user = self._prepare_user_data(partner_id, token)
                 return request.make_response(json.dumps({"user": user}))
 
             return Response("Bad request", status_code=404)
 
         return Response("Unauthorized", status_code=401)
+    
+    def _prepare_user_data(self, user_id, token):
+        data = user_id.to_map()
+        data["token"] = token.to_map()
+        return data
+        
 
 class AuthHelper:
 
