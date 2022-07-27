@@ -23,21 +23,21 @@ class AuthController(http.Controller):
             request.session.db, email, password)
         if uid:
             res_user = request.env["res.users"].browse(request.uid)
-            logged = res_user.partner_id
+            user = res_user.partner_id
 
-            if logged:
+            if user:
                 token = request.env["auth.token"].sudo().search([("user_id", "=", uid)], limit=1)
 
                 if token and token.has_expired():
                     _logger.info("TOKEN EXPIRED")
-                    token.token = AuthToken.jwt_creator(logged.id, uid, request.session.sid)
+                    token.token = AuthToken.jwt_creator(user.id, uid, request.session.sid)
 
                 elif not token:
                     _logger.info("NO TOKEN")
-                    token = request.env["auth.token"].sudo().create({"user_id": uid, "token": AuthToken.jwt_creator(logged.id, uid, request.session.sid)})
+                    token = request.env["auth.token"].sudo().create({"user_id": uid, "token": AuthToken.jwt_creator(user.id, uid, request.session.sid)})
 
-                user = logged.user_to_extranet()
-                user["token"] = token.to_extranet()
+                user = user.to_map()
+                user["token"] = token.to_map()
 
                 _logger.info("TOKEN => " + str(AuthToken.decode(token.token)))
                 _logger.info("USER => " + str(user))

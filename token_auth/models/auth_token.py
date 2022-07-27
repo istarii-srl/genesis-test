@@ -35,7 +35,7 @@ class AuthToken(models.Model):
     for token in self:
       return datetime.strptime(AuthToken.decode(token.token)["expired"], "%d-%m-%y").date() < date.today()
 
-  def to_extranet(self):
+  def to_map(self):
     for token in self:
       return {
         "id": token.id,
