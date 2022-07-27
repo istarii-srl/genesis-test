@@ -54,7 +54,7 @@ class AuthController(http.Controller):
             logged = request.env["res.users"].sudo().browse(token["uid"]).partner_id
 
             if logged:
-                token_db = request.env["classpro.auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
+                token_db = request.env["auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
                 user = logged.to_map()
                 user["token"] = token_db.to_map()
                 return request.make_response(json.dumps({"user": user}))
