@@ -25,7 +25,7 @@ class AuthController(http.Controller):
             res_user = request.env["res.users"].browse(request.uid)
             logged = res_user.partner_id
 
-            if logged and logged.has_access_right():
+            if logged:
                 token = request.env["auth.token"].sudo().search([("user_id", "=", uid)], limit=1)
 
                 if token and token.has_expired():
