@@ -9,4 +9,5 @@ class ProjectController(http.Controller):
 
     @http.route("/projects/get_projects_for/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
     def get_active_project_for_user(self):
+        
         return ""

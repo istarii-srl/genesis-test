@@ -61,8 +61,8 @@ class AuthController(http.Controller):
 
         return Response("Unauthorized", status_code=401)
     
-    def _prepare_user_data(self, user_id, token):
-        data = user_id.to_map()
+    def _prepare_user_data(self, partner_id, token):
+        data = partner_id.to_map()
         data["token"] = token.to_map()
         return data
         
