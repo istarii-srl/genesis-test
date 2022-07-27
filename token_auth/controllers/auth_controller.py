@@ -15,10 +15,6 @@ class AuthController(http.Controller):
         email = request.params["email"]
         password = request.params["password"]
 
-        _logger.info("##############")
-        _logger.info(request.db)
-        _logger.info(request.session.db)
-
         uid = request.session.authenticate(
             request.session.db, email, password)
         if uid:
@@ -45,7 +41,6 @@ class AuthController(http.Controller):
                 _logger.info("SESSION TOKEN => " + str(res_user._compute_session_token(request.session.sid)))
 
                 response = request.make_response(json.dumps({"user": user, "session_id": request.session.sid}), headers=[("Access-Control-Allow-Headers", "*"), ("Content-Type", "text/html; charset=utf-8"), ("Access-Control-Allow-Origin", "*")])
-                # response.set_cookie('auth', request.session.sid, path="/", domain="dev.localhost:8000", secure=True, httponly=False, samesite=None,)
                 return response
 
         return Response("Unauthorized", status_code=401)
@@ -58,10 +53,10 @@ class AuthController(http.Controller):
 
             logged = request.env["res.users"].sudo().browse(token["uid"]).partner_id
 
-            if logged and logged.has_access_right():
+            if logged:
                 token_db = request.env["classpro.auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
-                user = logged.user_to_extranet()
-                user["token"] = token_db.to_extranet()
+                user = logged.to_map()
+                user["token"] = token_db.to_map()
                 return request.make_response(json.dumps({"user": user}))
 
             return Response("Bad request", status_code=404)
