@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class AuthController(http.Controller):
 
-    @http.route("/token_authenticate", type="http", auth="public", csrf=False, cors="*")
+    @http.route("/auth/token_authenticate", type="http", auth="public", csrf=False, cors="*")
     def get_auth(self, **kwarg):
         _logger.info("CONTROLLER LOGIN => get auth")
         email = request.params["email"]
@@ -50,7 +50,23 @@ class AuthController(http.Controller):
 
         return Response("Unauthorized", status_code=401)
 
+    @http.route("/auth/recover", type="http", auth="public", csrf=False, cors="*")
+    def recover_auth(self, **kwarg):
+        _logger.info("CONTROLLER LOGIN => recover auth")
+        if request.httprequest.headers["Authorization"]:
+            token = AuthToken.decode(request.httprequest.headers["Authorization"])
 
+            logged = request.env["res.users"].sudo().browse(token["uid"]).partner_id
+
+            if logged and logged.has_access_right():
+                token_db = request.env["classpro.auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
+                user = logged.user_to_extranet()
+                user["token"] = token_db.to_extranet()
+                return request.make_response(json.dumps({"user": user}))
+
+            return Response("Bad request", status_code=404)
+
+        return Response("Unauthorized", status_code=401)
 
 class AuthHelper:
 
