@@ -16,7 +16,7 @@
     # for the full list
     'category': 'ERP',
     'license': 'OPL-1',
-    'version': '15.0.0.3',
+    'version': '15.0.0.4',
 
 
     # any module necessary for this one to work correctly
@@ -25,8 +25,8 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/project.xml'
-        'views/sale.xml'
+        'views/project.xml',
+        'views/sale.xml',
     ],
     'qweb': [
     ],
