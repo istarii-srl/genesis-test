@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
                 employees_for_line = { employee_id: 1 for employee_id in line.employee_ids.ids }
                 _logger.info("##########")
                 _logger.info(employees_for_line)
-                employees = { employee_id: employees.get(employee_id, 0) + employees_for_line[employee_id] for employee_id in employees.keys() + employees_for_line.keys() }
+                employees = { employee_id: employees.get(employee_id, 0) + employees_for_line[employee_id] for employee_id in employees.keys() | employees_for_line.keys() }
             _logger.info("*********")
             _logger.info(employees)
             if (sum(employees.values()) > len(employees)):
