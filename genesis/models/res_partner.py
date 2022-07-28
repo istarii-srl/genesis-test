@@ -9,10 +9,6 @@ class Partner(models.Model):
     _inherit = "res.partner"
     _description = "Contacts"
 
-    employee_ids = fields.One2many(
-        'hr.employee', 'address_home_id', string='Employees', groups="hr.group_hr_user",
-        help="Related employees based on their private address")
-
     @api.constrains('employee_ids')
     def ensure_single_employee(self):
         for partner in self:

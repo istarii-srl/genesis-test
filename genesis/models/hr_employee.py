@@ -6,6 +6,7 @@ _logger = logging.getLogger(__name__)
 
 class HrEmployeePrivate(models.Model):
     _name = "hr.employee"
+    _inherit = "hr.employee"
 
 
     @api.constrains('address_home_id')
