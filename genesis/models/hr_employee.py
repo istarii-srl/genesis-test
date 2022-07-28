@@ -8,6 +8,6 @@ class HrEmployeePrivate(models.Model):
     @api.constrains('address_home_id')
     def ensure_single_contact(self):
         for employee in self:
-            contacts = self.env['res.partner'].search([('employee_ids', 'in', employee.id)])
-            if (len(contacts) > 1):
+            contact = self.env['res.partner'].search([('employee_ids', 'in', employee.id)], limit=1)
+            if (contact and len(contact.employee_ids) > 1):
                 raise UserError(_("Le contact sélectionné est déjà lié à un autre employé. Un contact ne peut être lié qu'à un seul employé."))
