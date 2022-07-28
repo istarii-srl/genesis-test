@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
                 _logger.info(employees_for_line)
                 employees = { employee_id: employees.get(employee_id, 0) + employees_for_line[employee_id] for employee_id in employees_for_line.keys() }
         _logger.info("*********")
-        _logger.info(employees_for_line)
+        _logger.info(employees)
         if (sum(employees.values()) > len(employees)):
             raise UserError(_("Il ne peut pas y avoir un même employé sur plusieurs ligne de vente."))
 
