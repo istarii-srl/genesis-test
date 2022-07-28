@@ -27,3 +27,13 @@ class Partner(models.Model):
             else:
                 data['employee_id'] = -1
             return data
+
+
+    def action_create_employee(self):
+        for partner_id in self: 
+            data = {
+                'name': partner_id.name,
+                'address_home_id': partner_id.id,
+                'company_id': partner_id.company_id.id
+            }
+            employee = self.env['hr_employee'].create(data)
