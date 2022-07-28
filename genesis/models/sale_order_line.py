@@ -17,5 +17,5 @@ class SaleOrderLine(models.Model):
                     employees_for_line = { employee_id: 1 for employee_id in line.employee_ids.ids }
                     employees = { employee_id: employees.get(employee_id, 0) + employees_for_line[employee_id] for employee_id in employees_for_line.keys() }
             if (sum(employees.values()) > len(employees)):
-                raise UserError(_("Il ne peut pas y avaoir un même employé sur plusieurs ligne de vente."))
+                raise UserError(_("Il ne peut pas y avoir un même employé sur plusieurs ligne de vente."))
 
