@@ -10,8 +10,11 @@ class Partner(models.Model):
 
     def to_map(self):
        for partner in self:
-            return {
+            data = {
                 "id": partner.id,
                 "name": partner.name,
                 "email": partner.email if partner.email else "",
             }
+            if len(partner.employee_ids == 1):
+                data['employee_id'] = partner.employee_ids[0]
+            return data
