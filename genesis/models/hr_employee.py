@@ -15,7 +15,7 @@ class HrEmployeePrivate(models.Model):
         for employee in self:
             employee.check_one_employee()
 
-    def _check_one_employee(self):
+    def check_one_employee(self):
         for employee in self:
             contact = self.env['res.partner'].search([('employee_ids', 'in', employee.id)], limit=1)
             if (contact and len(contact.employee_ids) > 1):
