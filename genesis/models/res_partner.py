@@ -35,6 +35,8 @@ class Partner(models.Model):
                 'name': partner_id.name,
                 'address_home_id': partner_id.id,
                 'company_id': self.env.company.id,
-                'work_email': partner_id.email
+                'work_email': partner_id.email,
+                'mobile_phone': partner_id.mobile,
+                'work_phone': partner_id.phone,
             }
             employee = self.env['hr.employee'].create(data)
