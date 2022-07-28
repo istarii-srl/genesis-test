@@ -65,23 +65,21 @@ class AuthController(http.Controller):
         data = partner_id.sudo().to_map()
         data["token"] = token.to_map()
         return data
-        
 
-class AuthHelper:
 
-  @staticmethod
-  def is_authorized(request):
-    if request.httprequest.headers["Authorization"]:
-      token = AuthToken.decode(request.httprequest.headers["Authorization"])
-      res_user = request.env["res.users"].sudo().browse(token["uid"])
-      if res_user and res_user.active and token["user_id"] == res_user.partner_id.id:
-        token_db = request.env["auth.token"].sudo().search([("user_id", "=", res_user.id)], limit=1)
-        if token_db:
-          return AuthToken.decode(token_db.token) == token
-    return Response("Unauthorized", status_code=401)
+    @staticmethod
+    def is_authorized(request):
+      if request.httprequest.headers["Authorization"]:
+        token = AuthToken.decode(request.httprequest.headers["Authorization"])
+        res_user = request.env["res.users"].sudo().browse(token["uid"])
+        if res_user and res_user.active and token["user_id"] == res_user.partner_id.id:
+          token_db = request.env["auth.token"].sudo().search([("user_id", "=", res_user.id)], limit=1)
+          if token_db:
+            return AuthToken.decode(token_db.token) == token
+      return Response("Unauthorized", status_code=401)
 
-  def get_uid(request):
-    return AuthToken.decode(request.httprequest.headers["Authorization"])["uid"]
+    def get_uid(request):
+      return AuthToken.decode(request.httprequest.headers["Authorization"])["uid"]
 
-  def get_user_id(request):
-    return AuthToken.decode(request.httprequest.headers["Authorization"])["user_id"]
+    def get_user_id(request):
+      return AuthToken.decode(request.httprequest.headers["Authorization"])["user_id"]
