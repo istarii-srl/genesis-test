@@ -9,7 +9,7 @@ class SaleOrderLine(models.Model):
 
     employee_ids = fields.Many2many('hr.employee', string="Employé(s)")
 
-    @api.constrains('employee_ids')
+    # @api.constrains('employee_ids')
     def ensure_no_two_employee(self):
         for line in self:
             order_id = line.order_id
@@ -23,4 +23,9 @@ class SaleOrderLine(models.Model):
             _logger.info(employees)
             if (sum(employees.values()) > len(employees)):
                 raise UserError(_("Il ne peut pas y avoir un même employé sur plusieurs ligne de vente."))
+
+    def write(self, vals):
+        super(SaleOrderLine, self).write(vals)
+        for line in self:
+            line.ensure_no_two_employee()
 
