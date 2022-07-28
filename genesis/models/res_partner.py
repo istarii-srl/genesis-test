@@ -45,7 +45,7 @@ class Partner(models.Model):
                 employee = self.env['hr.employee'].create(data)
             else:
                 ignored.append(partner_id.name)
-        if len(ignored) > 0:
-            message = str(len(ignored)) + " contact(s) ignoré(s). Les contacts ignorées sont des entreprise ou ont déjà un employé lié. \n"
-            message += "Contacts ignorés : \n" + '\n'.join(ignored)
-            raise UserError(_(message))
+        # if len(ignored) > 0:
+        #     message = str(len(ignored)) + " contact(s) ignoré(s). Les contacts ignorées sont des entreprises ou ont déjà un employé lié. \n"
+        #     message += "Contacts ignorés : \n" + '\n'.join(ignored)
+        #     raise UserError(_(message))

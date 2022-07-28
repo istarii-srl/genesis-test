@@ -14,4 +14,16 @@
         </field>
     </record>
 
+    <record model="ir.actions.server" id="action_create_employee">
+        <field name="name">Créer les employés</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.action_create_employee()
+        </field>
+    </record>
+
 </odoo>
