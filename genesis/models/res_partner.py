@@ -36,4 +36,4 @@ class Partner(models.Model):
                 'address_home_id': partner_id.id,
                 'company_id': partner_id.company_id.id
             }
-            employee = self.env['hr_employee'].create(data)
+            employee = self.env['hr.employee'].create(data)
