@@ -28,5 +28,5 @@ class Partner(models.Model):
                 "email": partner.email if partner.email else "",
             }
             if len(partner.employee_ids) == 1:
-                data['employee_id'] = partner.employee_ids[0]
+                data['employee_id'] = partner.employee_ids[0].id
             return data
