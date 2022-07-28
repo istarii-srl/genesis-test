@@ -38,5 +38,6 @@ class Partner(models.Model):
                 'work_email': partner_id.email,
                 'mobile_phone': partner_id.mobile,
                 'work_phone': partner_id.phone,
+                'image_1920': partner_id.image_1920,
             }
             employee = self.env['hr.employee'].create(data)
