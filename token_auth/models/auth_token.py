@@ -27,8 +27,8 @@ class AuthToken(models.Model):
     return stringAsBase64 
 
   @staticmethod
-  def jwt_creator(user_id, uid, session_id):
-    payload = {"expired": (datetime.now() + timedelta(days=15)).strftime("%d-%m-%y"), "user_id": user_id, "uid": uid, "session_id": session_id}
+  def jwt_creator(partner_id, uid, session_id):
+    payload = {"expired": (datetime.now() + timedelta(days=15)).strftime("%d-%m-%y"), "partner_id": partner_id, "uid": uid, "session_id": session_id}
     return str(AuthToken.encode(json.dumps(payload)))
 
   def has_expired(self):

@@ -26,11 +26,11 @@ class AuthController(http.Controller):
 
                 if token and token.has_expired():
                     _logger.info("TOKEN EXPIRED")
-                    token.token = AuthToken.jwt_creator(user.id, uid, request.session.sid)
+                    token.token = AuthToken.jwt_creator(partner_id.id, uid, request.session.sid)
 
                 elif not token:
                     _logger.info("NO TOKEN")
-                    token = request.env["auth.token"].sudo().create({"user_id": uid, "token": AuthToken.jwt_creator(user.id, uid, request.session.sid)})
+                    token = request.env["auth.token"].sudo().create({"user_id": uid, "token": AuthToken.jwt_creator(partner_id.id, uid, request.session.sid)})
 
                 user = self._prepare_user_data(partner_id, token)
 
@@ -53,8 +53,8 @@ class AuthController(http.Controller):
             partner_id = request.env["res.users"].sudo().browse(token["uid"]).partner_id
 
             if partner_id:
-                token = request.env["auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
-                user = self._prepare_user_data(partner_id, token)
+                token_db = request.env["auth.token"].sudo().search([("user_id", "=", token["uid"])], limit=1)
+                user = self._prepare_user_data(partner_id, token_db)
                 return request.make_response(json.dumps({"user": user}))
 
             return Response("Bad request", status_code=404)
