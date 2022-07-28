@@ -15,6 +15,6 @@ class Partner(models.Model):
                 "name": partner.name,
                 "email": partner.email if partner.email else "",
             }
-            if len(partner.employee_ids == 1):
+            if len(partner.employee_ids) == 1:
                 data['employee_id'] = partner.employee_ids[0]
             return data
