@@ -1,5 +1,8 @@
+import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 class HrEmployeePrivate(models.Model):
     _name = "hr.employee"
@@ -7,11 +10,13 @@ class HrEmployeePrivate(models.Model):
 
     @api.constrains('address_home_id')
     def ensure_single_contact(self):
+        _logger.info("*********")
         for employee in self:
             employee.check_one_employee()
 
     @api.onchange('address_home_id')
     def on_address_change(self):
+        _logger.info("#########")
         for employee in self:
             employee.check_one_employee()
 
