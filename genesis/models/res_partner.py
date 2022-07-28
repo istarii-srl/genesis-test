@@ -11,7 +11,7 @@ class Partner(models.Model):
 
     employee_ids = fields.One2many(
         'hr.employee', 'address_home_id', string='Employees',
-        help="Related employees based on their private address")
+        help="Related employees based on their private address", groups="base.group_public")
 
 
     @api.constrains('employee_ids')
