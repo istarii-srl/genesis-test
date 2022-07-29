@@ -6,9 +6,9 @@ class ProjectProject(models.Model):
     _name = 'project.project'
 
     def to_map(self):
-        for project in self:
-            return {
-                'id': project.id,
-                'name': project.name,
-                'client': project.partner_id.name if project.partner_id else ""
-            }
+        return {
+            'id': self.id,
+            'name': self.name,
+            'client': self.partner_id.name if self.partner_id else "",
+            'tasks': [task.to_map() for task in self.task_ids],
+        }
