@@ -39,7 +39,7 @@ class TimesheetController(http.Controller):
                     'departement_id': timesheet_id.department_id,
                     'project_id': timesheet_id.project_id,
                     'task_id': timesheet_id.task_id,
-                    'leave_id': timesheet_id.leave_id,
+                    'holiday_id': timesheet_id.holiday_id,
                     'unit_amount': timesheet_id.unit_amount,
                     'duration_unit_amount': timesheet_id.duration_unit_amount,
                     'unit_amount_validate': timesheet_id.unit_amount_validate,
