@@ -16,8 +16,7 @@ class TimesheetController(http.Controller):
         _logger.info("CONTROLLER TIMESHEET => get timesheets for employee_id and month")
         
         if AuthController.is_authorized(request):
-            first_date, last_date = self._get_month(date_month)
-            query = [('is_timesheet', '=', True), ('employee_id', '=', employee_id), ('date' ,'>=', first_date), ('date', '<=', last_date)]
+            query = TimesheetController.get_base_query(employee_id, date_month)
             timesheet_ids = request.env['account.analytic.line'].sudo().search(query)
             return request.make_response(json.dumps({"data": [timesheet.to_map() for timesheet in timesheet_ids]}))
 
@@ -29,8 +28,7 @@ class TimesheetController(http.Controller):
         _logger.info("CONTROLLER TIMESHEET => set provisional for employee_id and month")
         
         if AuthController.is_authorized(request):
-            first_date, last_date = self._get_month(date_month)
-            query = [('is_timesheet', '=', True), ('employee_id', '=', employee_id), ('date' ,'>=', first_date), ('date', '<=', last_date), ('linked_provisional_id', '!=', False)]
+            query = TimesheetController.get_base_query(employee_id, date_month) + [('linked_provisional_id', '!=', False)]
             timesheet_ids = request.env['account.analytic.line'].sudo().search(query)
             for timesheet_id in timesheet_ids:
                 request.env['genesis.provisional.line'].sudo().create({
@@ -51,7 +49,14 @@ class TimesheetController(http.Controller):
 
         return Response("Unauthorized", status_code=401)
 
-    def _get_month(self, date_month):
+    @staticmethod
+    def get_month(date_month):
         first_date = parser.parse(date_month).replace(day=1).date()
         last_date = ((first_date.replace(day=28) + datetime.timedelta(days=4)) - datetime.timedelta(days=1))
         return first_date, last_date
+
+    @staticmethod
+    def get_base_query(employee_id, date_month):
+        first_date, last_date = TimesheetController.get_month(date_month)
+        query = [('is_timesheet', '=', True), ('employee_id', '=', employee_id), ('date' ,'>=', first_date), ('date', '<=', last_date), ('unit_amount', '>', 0)]
+        return query
