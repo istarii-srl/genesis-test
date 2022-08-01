@@ -13,7 +13,7 @@ class AnalyticLine(models.Model):
             'duration': self.unit_amount,
         }
         if self.holiday_id:
-            data['leave'] = self.leave_id.holiday_status_id.to_map()
+            data['leave'] = self.holiday_id.holiday_status_id.to_map()
         elif self.project_id:
             data['project'] = self.project_id.to_map()
         elif self.task_id:
