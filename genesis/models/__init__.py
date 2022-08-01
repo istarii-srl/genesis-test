@@ -6,3 +6,4 @@ from . import sale_order
 from . import res_partner
 from . import hr_employee
 from . import analytic_line
+from . import hr_leave_type
