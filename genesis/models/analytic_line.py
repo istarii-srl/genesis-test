@@ -10,7 +10,7 @@ class AnalyticLine(models.Model):
         data = {
             'id': self.id,
             'date': self.date,
-            'duration': self.duration_unit,
+            'duration': self.unit_amount,
         }
         if self.holiday_id:
             data['leave'] = self.leave_id.holiday_status_id.to_map()
