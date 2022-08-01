@@ -28,7 +28,7 @@ class TimesheetController(http.Controller):
         _logger.info("CONTROLLER TIMESHEET => set provisional for employee_id and month")
         
         if AuthController.is_authorized(request):
-            query = TimesheetController.get_base_query(employee_id, date_month) + [('linked_provisional_id', '==', False)]
+            query = TimesheetController.get_base_query(employee_id, date_month) + [('linked_provisional_id', '=', False)]
             timesheet_ids = request.env['account.analytic.line'].sudo().search(query)
             for timesheet_id in timesheet_ids:
                 request.env['genesis.provisional.line'].sudo().create({
