@@ -1,6 +1,9 @@
 from odoo import models
 
 class AnalyticLine(models.Model):
+    
+    _name = 'account.analytic.line'
+    _inherit = 'account.analytic.line'
 
     def to_map(self):
         data = {
