@@ -52,5 +52,5 @@ class TimesheetController(http.Controller):
 
     def _get_month(self, date_month):
         first_date = parser.parse(date_month).replace(day=1).date()
-        last_date = ((first_date.replace(day=28) + datetime.timedelta(days=4)) - datetime.timedelta(days=1)).date()
+        last_date = ((first_date.replace(day=28) + datetime.timedelta(days=4)) - datetime.timedelta(days=1))
         return first_date, last_date
