@@ -9,9 +9,9 @@ import datetime
 _logger = logging.getLogger(__name__)
 
 
-class LeaveProject(http.Controller):
+class LeaveController(http.Controller):
 
-    @http.route("/leave/get_all_leaves", type="http", auth="public", csrf=False, cors="*")
+    @http.route("/leave/get_all_leave_types", type="http", auth="public", csrf=False, cors="*")
     def get_all_leave_types(self):
         _logger.info("CONTROLLER LEAVE => get all leave types")
         if AuthController.is_authorized(request):
