@@ -25,7 +25,7 @@ class TimesheetController(http.Controller):
 
 
     @http.route("/timesheet/save_provisional/<int:employee_id>/<string:date_month>", type="http", auth="public", csrf=False, cors="*")
-    def get_month_timesheets_for(self, employee_id, date_month):
+    def save_provisional_for(self, employee_id, date_month):
         _logger.info("CONTROLLER TIMESHEET => set provisional for employee_id and month")
         
         if AuthController.is_authorized(request):
