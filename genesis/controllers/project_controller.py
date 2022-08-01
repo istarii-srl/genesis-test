@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class ProjectController(http.Controller):
 
-    @http.route("/projects/get_projects_for/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
+    @http.route("/project/get_projects_for/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
     def get_active_project_for_user(self, employee_id):
         _logger.info("CONTROLLER PROJECT => get projects for employee_id")
         if AuthController.is_authorized(request):

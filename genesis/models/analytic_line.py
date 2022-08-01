@@ -1,9 +1,10 @@
-from odoo import models
-
+from odoo import models, fields
 class AnalyticLine(models.Model):
     
     _name = 'account.analytic.line'
     _inherit = 'account.analytic.line'
+
+    linked_provisional_id = fields.Many2one('genesis.provisional.line', string="The provisional line created from this line")
 
     def to_map(self):
         data = {
