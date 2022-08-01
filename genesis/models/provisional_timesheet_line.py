@@ -1,7 +1,7 @@
 from odoo import models, fields 
 
 
-class ProvisionalTimesheetLine(models.Modal):
+class ProvisionalTimesheetLine(models.Model):
     _name = 'genesis.provisional.line'
     _inherit = 'account.analytic.line'
 
