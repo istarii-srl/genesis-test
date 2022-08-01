@@ -36,7 +36,7 @@ class TimesheetController(http.Controller):
                     'date': timesheet_id.date,
                     'employee_id': timesheet_id.employee_id.id,
                     'user_id': timesheet_id.user_id.id,
-                    'departement_id': timesheet_id.department_id.id,
+                    'department_id': timesheet_id.department_id.id,
                     'project_id': timesheet_id.project_id.id,
                     'task_id': timesheet_id.task_id.id,
                     'holiday_id': timesheet_id.holiday_id.id,
