@@ -9,7 +9,7 @@ class AnalyticLine(models.Model):
     def to_map(self):
         data = {
             'id': self.id,
-            'date': self.date,
+            'date': self.date.strftime('%Y-%m-%d'),
             'duration': self.unit_amount,
         }
         if self.holiday_id:
