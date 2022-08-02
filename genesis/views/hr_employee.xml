@@ -19,7 +19,9 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid_by_project_no_section"/>
         <field name="arch" type="xml">
-
+            <field name="task_id" position="after">
+                <field name="original_id" invisible="1" />
+            </field>
         </field>
     </record>
 
