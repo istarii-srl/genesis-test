@@ -4,7 +4,7 @@
     <record id="previsional_action_from_employee" model="ir.actions.act_window">
         <field name="name">Timesheets prévisionnelles</field>
         <field name="res_model">genesis.provisional.line</field>
-        <field name="search_view_id" ref="hr_timesheet_line_search"/>
+        <field name="search_view_id" ref="hr_timesheet.hr_timesheet_line_search"/>
         <field name="domain">[('project_id', '!=', False)]</field>
         <field name="context">{
             'search_default_month':1,
@@ -21,7 +21,7 @@
             <div name="button_box" position="inside">
                 <button class="oe_stat_button" type="action" name="%(previsional_action_from_employee)d" icon="fa-calendar" groups="hr_timesheet.group_hr_timesheet_user">
                     <div class="o_stat_info">
-                        <span class="o_stat_text">Timesheets prévisionnelles</span>
+                        <span class="o_stat_text">Prévisionnel</span>
                     </div>
                 </button>
             </div>
