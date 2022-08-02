@@ -42,7 +42,7 @@
     <record id="previsional_action_view_from_employee_grid" model="ir.actions.act_window.view">
         <field name="sequence" eval="5"/>
         <field name="view_mode">grid</field>
-        <field name="view_id" ref="timesheet_grid.timesheet_view_grid_by_project_no_section"/>
+        <field name="view_id" ref="genesis_previsional_grid"/>
         <field name="act_window_id" ref="previsional_action_from_employee"/>
     </record>
 
