@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="genesis_timesheet_grid" model="ir.ui.view">
+    <!-- <record id="genesis_timesheet_grid" model="ir.ui.view">
         <field name="name">genesis.account.analytic.line.grid.project</field>
         <field name="model">account.analytic.line</field>
         <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid_by_project"/>
@@ -13,6 +13,6 @@
                 </field>
             </field>
         </field>
-    </record>
+    </record> -->
 
 </odoo>
