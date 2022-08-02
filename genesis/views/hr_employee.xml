@@ -21,16 +21,11 @@
         <field name="act_window_id" ref="previsional_action_from_employee"/>
     </record>
 
-    <record id="genesis_previsional" model="ir.ui.view">
-        <field name="name">genesis.previsional.grid</field>
-        <field name="model">genesis.provisional.line</field>
-        <field name="mode">primary</field>
-        <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid_by_project_no_section"/>
-        <field name="arch" type="xml">
-            <field name="task_id" position="replace">
-                <field name="task_id" type="row" />
-            </field>
-        </field>
+    <record id="previsional_action_view_from_employee_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="act_window_id" ref="previsional_action_from_employee"/>
     </record>
 
     <record id="genenesis_hr_employee_view_form_inherit_timesheet" model="ir.ui.view">
