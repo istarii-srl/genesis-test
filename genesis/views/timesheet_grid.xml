@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="genesis_timesheet_grid" model="ir.ui.view">
+        <field name="name">genesis.account.analytic.line.grid</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid"/>
+        <field name="arch" type="xml">
+            <field name="date" position="replace">
+                <field name="date" type="col">
+                    <range name="month" string="Month" span="month" step="day"/>
+                    <range name="week" string="Week" span="week" step="day"/>
+                </field>
+            </field>
+        </field>
+    </record>
 
-    <!-- <record id="genesis_timesheet_grid" model="ir.ui.view">
+    <record id="genesis_timesheet_grid_project" model="ir.ui.view">
         <field name="name">genesis.account.analytic.line.grid.project</field>
         <field name="model">account.analytic.line</field>
         <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid_by_project"/>
@@ -13,6 +26,34 @@
                 </field>
             </field>
         </field>
-    </record> -->
+    </record>
+
+    <record id="genesis_timesheet_grid_employee" model="ir.ui.view">
+        <field name="name">genesis.account.analytic.line.grid</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid_by_employee"/>
+        <field name="arch" type="xml">
+            <field name="date" position="replace">
+                <field name="date" type="col">
+                    <range name="month" string="Month" span="month" step="day"/>
+                    <range name="week" string="Week" span="week" step="day"/>
+                </field>
+            </field>
+        </field>
+    </record>
+
+    <record id="genesis_timesheet_grid_task_readonly" model="ir.ui.view">
+        <field name="name">genesis.account.analytic.line.grid</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="timesheet_grid.timesheet_view_grid_by_task_readonly"/>
+        <field name="arch" type="xml">
+            <field name="date" position="replace">
+                <field name="date" type="col">
+                    <range name="month" string="Month" span="month" step="day"/>
+                    <range name="week" string="Week" span="week" step="day"/>
+                </field>
+            </field>
+        </field>
+    </record>
 
 </odoo>
