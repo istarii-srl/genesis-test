@@ -31,7 +31,7 @@ class TimesheetController(http.Controller):
             query = TimesheetController.get_base_query(employee_id, date_month) + [('linked_provisional_id', '=', False)]
             timesheet_ids = request.env['account.analytic.line'].sudo().search(query)
             for timesheet_id in timesheet_ids:
-                request.env['genesis.provisional.line'].sudo().create({
+                provisional = request.env['genesis.provisional.line'].sudo().create({
                     'is_timesheet': True,
                     'date': timesheet_id.date,
                     'employee_id': timesheet_id.employee_id.id,
@@ -45,6 +45,7 @@ class TimesheetController(http.Controller):
                     'unit_amount_validate': timesheet_id.unit_amount_validate,
                     'can_edit': False,
                 })
+                timesheet_id.linked_provisional_id = provisional
             return request.make_response(json.dumps({"status": True}))
 
         return Response("Unauthorized", status_code=401)
