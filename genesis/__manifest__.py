@@ -16,7 +16,7 @@
     # for the full list
     'category': 'ERP',
     'license': 'OPL-1',
-    'version': '15.0.0.45',
+    'version': '15.0.0.46',
 
 
     # any module necessary for this one to work correctly
@@ -29,6 +29,7 @@
         'views/sale.xml',
         'views/res_partner.xml',
         'views/hr_leave.xml',
+        'views/hr_employee.xml',
     ],
     'qweb': [
     ],
