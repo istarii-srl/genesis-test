@@ -72,7 +72,7 @@ class AuthController(http.Controller):
       if request.httprequest.headers["Authorization"]:
         token = AuthToken.decode(request.httprequest.headers["Authorization"])
         res_user = request.env["res.users"].sudo().browse(token["uid"])
-        if res_user and res_user.active and token["user_id"] == res_user.partner_id.id:
+        if res_user and res_user.active and token["partner_id"] == res_user.partner_id.id:
           token_db = request.env["auth.token"].sudo().search([("user_id", "=", res_user.id)], limit=1)
           if token_db:
             return AuthToken.decode(token_db.token) == token
