@@ -16,11 +16,11 @@
     # for the full list
     'category': 'ERP',
     'license': 'OPL-1',
-    'version': '15.0.0.78',
+    'version': '15.0.0.79',
 
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'calendar', 'mail', 'token_auth', 'sale_management', 'project', 'hr_holidays', 'hr', 'timesheet_grid'],
+    'depends': ['base', 'token_auth', 'sale_management', 'project', 'hr_holidays', 'hr', 'timesheet_grid'],
 
     # always loaded
     'data': [
