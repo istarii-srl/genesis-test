@@ -82,8 +82,8 @@ class TimesheetController(http.Controller):
 
     @staticmethod
     def _convert_days_to_hours(days):
-        uom_hour = request.env.sudo().ref('uom.product_uom_hour')
-        uom_day = request.env.sudo().ref('uom.product_uom_day')
+        uom_hour = request.env.ref('uom.product_uom_hour').sudo()
+        uom_day = request.env.ref('uom.product_uom_day').sudo()
         return uom_day._compute_quantity(days, uom_hour, raise_if_failure=False)
 
     @staticmethod
