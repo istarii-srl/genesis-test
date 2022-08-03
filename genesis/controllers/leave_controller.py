@@ -22,7 +22,7 @@ class LeaveController(http.Controller):
         return Response("Unauthorized", status_code=401)
 
 
-    @http.route("/leave/create<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
+    @http.route("/leave/create/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
     def create_leaves(self, employee_id):
         _logger.info("CONTROLLER LEAVE => create")
         if AuthController.is_authorized(request):
