@@ -50,6 +50,42 @@ class TimesheetController(http.Controller):
 
         return Response("Unauthorized", status_code=401)
 
+
+    @http.route("/timesheet/create/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
+    def create_timesheet_entry(self, employee_id):
+        _logger.info("CONTROLLER TIMESHEET => create timesheet entry")
+
+        if AuthController.is_authorized(request):
+            new_entries = json.loads(request.params['entries'])
+            for new_entry in new_entries:
+                project_id = new_entry['project_id']
+                employee = request.env['hr.employee'].sudo().browse(employee_id)
+                user = request.env['res.user'].sudo().search([('partner_id', '=', employee.address_home_id.id)], limit=1)
+                so_line = request.env['sale.order.line'].search([('project_id', '=', project_id), ('employee_id', '=', employee_id)], limit=1)
+                vals = {
+                    'is_timesheet': True,
+                    'date': parser.parse(new_entry['date']).date(),
+                    'employee_id': employee_id,
+                    'user_id': user.id,
+                    'department_id': employee.department_id.id,
+                    'project_id': project_id,
+                    'unit_amount': TimesheetController._convert_days_to_hours(new_entry['duration']),
+                    'so_line': so_line.id,
+                }
+                if new_entry['task_id']:
+                    vals['task_id'] = new_entry['task_id']
+                new_entry = request.env['account.analytic.line'].sudo().create(vals)
+            return request.make_response(json.dumps({'status': True}))
+
+        return Response("Unauthorized", status_code=401)
+
+
+    @staticmethod
+    def _convert_days_to_hours(days):
+        uom_hour = request.env.ref('uom.product_uom_hour')
+        uom_day = request.env.ref('uom.product_uom_day')
+        return uom_day._compute_quantity(days, uom_hour, raise_if_failure=False)
+
     @staticmethod
     def get_month(date_month):
         first_date = parser.parse(date_month).replace(day=1).date()
