@@ -52,7 +52,7 @@ class TimesheetController(http.Controller):
 
 
     @http.route("/timesheet/create/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def create_timesheet_entry(self, employee_id):
+    def create_timesheet_entries(self, employee_id):
         _logger.info("CONTROLLER TIMESHEET => create timesheet entry")
 
         if AuthController.is_authorized(request):
@@ -60,7 +60,7 @@ class TimesheetController(http.Controller):
             for new_entry in new_entries:
                 project_id = new_entry['project_id']
                 employee = request.env['hr.employee'].sudo().browse(employee_id)
-                user = request.env['res.user'].sudo().search([('partner_id', '=', employee.address_home_id.id)], limit=1)
+                user = request.env['res.users'].sudo().search([('partner_id', '=', employee.address_home_id.id)], limit=1)
                 so_line = request.env['sale.order.line'].search([('project_id', '=', project_id), ('employee_id', '=', employee_id)], limit=1)
                 vals = {
                     'is_timesheet': True,
