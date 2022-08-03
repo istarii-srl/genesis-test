@@ -1,7 +1,8 @@
 from odoo import models, api
 
 class Meeting(models.Model):
-
+    _name = 'calendar.event'
+    _inherit = 'calendar.event'
     #! copy paste ovveride to add sudo because of rights problems
     @api.model_create_multi
     def create(self, vals_list):
