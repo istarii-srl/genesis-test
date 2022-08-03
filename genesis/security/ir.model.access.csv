@@ -3,4 +3,4 @@ access_genesis_provisional_line_user,genesis.genesis.provisional.line,model_gene
 access_mail_activity_type_public,mail.mail.activity.type,mail.model_mail_activity_type,base.group_public,1,0,0,0
 access_mail_activity_public,mail.mail.activity,mail.model_mail_activity,base.group_public,1,0,0,0
 access_calendar_event_public,calendar.calendar.event,calendar.model_calendar_event,base.group_public,1,0,1,0
-access_calendar_attendee_public,calendar.calendar.attendee,calendar.model_calendar_attendee,base.group_public,1,0,0,0
+access_calendar_attendee_public,calendar.calendar.attendee,calendar.model_calendar_attendee,base.group_portal,1,0,1,0
