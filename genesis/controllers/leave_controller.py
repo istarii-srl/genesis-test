@@ -35,6 +35,7 @@ class LeaveController(http.Controller):
                     'date_from': parser.parse(new_entry['date']),
                     'date_to': parser.parse(new_entry['date']).replace(hour=23),
                     'number_of_days': new_entry['duration'],
+                    'state': 'validate',
                 })
             return request.make_response(json.dumps({"status": True})) 
 
