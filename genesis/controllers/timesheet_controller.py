@@ -72,7 +72,7 @@ class TimesheetController(http.Controller):
                     'unit_amount': TimesheetController._convert_days_to_hours(new_entry['duration']),
                     'so_line': so_line.id,
                 }
-                if new_entry['task_id']:
+                if 'task_id' in new_entry:
                     vals['task_id'] = new_entry['task_id']
                 new_entry = request.env['account.analytic.line'].sudo().create(vals)
             return request.make_response(json.dumps({'status': True}))
