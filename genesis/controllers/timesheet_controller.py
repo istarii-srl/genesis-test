@@ -61,7 +61,7 @@ class TimesheetController(http.Controller):
                 project_id = new_entry['project_id']
                 employee = request.env['hr.employee'].sudo().browse(employee_id)
                 user = request.env['res.users'].sudo().search([('partner_id', '=', employee.address_home_id.id)], limit=1)
-                so_line = request.env['sale.order.line'].sudo().search([('project_id', '=', project_id), ('employee_id', '=', employee_id)], limit=1)
+                so_line = request.env['sale.order.line'].sudo().search([('project_id', '=', project_id), ('employee_ids', 'in', employee_id)], limit=1)
                 vals = {
                     'is_timesheet': True,
                     'date': parser.parse(new_entry['date']).date(),
