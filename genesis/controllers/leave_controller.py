@@ -32,8 +32,7 @@ class LeaveController(http.Controller):
                 request.env['hr.leave'].sudo().create({
                     'employee_id': employee_id,
                     'holiday_status_id': new_entry['leave_id'],
-                    'date_from': parser.parse(new_entry['date']),
-                    'date_to': parser.parse(new_entry['date']).replace(hour=23),
+                    'date_from': parser.parse(new_entry['date']).replace(hour=7),
                     'number_of_days': new_entry['duration'],
                     'state': 'validate',
                 })
