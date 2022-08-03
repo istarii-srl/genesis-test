@@ -33,7 +33,7 @@ class LeaveController(http.Controller):
                     'employee_id': employee_id,
                     'holiday_status_id': new_entry['leave_id'],
                     'date_from': parser.parse(new_entry['date']).replace(hour=7),
-                    'number_of_days': new_entry['duration'],
+                    'date_to': new_entry['duration'].replace(hour=17),
                     'state': 'validate',
                 })
             return request.make_response(json.dumps({"status": True})) 
