@@ -22,7 +22,7 @@ class LeaveController(http.Controller):
         return Response("Unauthorized", status_code=401)
 
     @http.route("/leave/get_allocations/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def get_all_leave_types(self, employee_id):
+    def get_allocations(self, employee_id):
         _logger.info("CONTROLLER LEAVE => get leave allocation")
         if AuthController.is_authorized(request):
 
