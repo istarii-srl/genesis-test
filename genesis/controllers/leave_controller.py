@@ -41,7 +41,7 @@ class LeaveController(http.Controller):
             data = []
             for leave_type in allocations.keys():
                 taken, allocated = allocations[leave_type]
-                data.append([{'leave': leave_type.to_map(), 'taken': taken, 'allocated': allocated}])
+                data.append({'leave': leave_type.to_map(), 'taken': taken, 'allocated': allocated})
             return request.make_response(json.dumps({"data": data}))
 
         return Response("Unauthorized", status_code=401)
