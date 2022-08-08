@@ -5,8 +5,7 @@
         Genesis Consult""",
 
     'description': """
-        Genesis Consult
-    """,
+        Genesis Consult""",
 
     'author': "istarii",
     'website': "https://istarii.com",
@@ -16,7 +15,7 @@
     # for the full list
     'category': 'ERP',
     'license': 'OPL-1',
-    'version': '15.0.0.89',
+    'version': '15.0.0.90',
 
 
     # any module necessary for this one to work correctly
