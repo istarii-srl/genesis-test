@@ -14,5 +14,5 @@ class HolidaysRequest(models.Model):
     def to_map(self):
         return {
             'id': self.id,
-            'type': self.holiday_status.to_map()
+            'type': self.holiday_status_id.to_map()
         }
