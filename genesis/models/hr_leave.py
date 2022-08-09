@@ -11,6 +11,12 @@ class HolidaysRequest(models.Model):
     _name = 'hr.leave'
     _description = 'hr.leave'
 
+    def to_map(self):
+        return {
+            'id': self.id,
+            'type': self.holiday_status.to_map()
+        }
+
     def action_validate(self):
         current_employee = self.env.user.employee_id
         leaves = self._get_leaves_on_public_holiday()
