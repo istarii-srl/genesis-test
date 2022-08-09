@@ -54,6 +54,7 @@ class LeaveController(http.Controller):
 
             new_entries = json.loads(request.params['entries'])
             for new_entry in new_entries:
+                _logger.info(new_entry)
                 request.env['hr.leave'].sudo().create({
                     'employee_id': employee_id,
                     'holiday_status_id': new_entry['leave']['type_id'],
