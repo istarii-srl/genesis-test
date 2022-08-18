@@ -83,3 +83,10 @@ class AuthController(http.Controller):
 
     def get_user_id(request):
       return AuthToken.decode(request.httprequest.headers["Authorization"])["user_id"]
+
+    
+    @http.route("/auth/recover_password", type="http", auth="public", csrf=False, cors="*")
+    def recover_auth(self, **kwarg):
+        _logger.info("CONTROLLER LOGIN => recover password")
+        return Response({"result": "success"})
+        
