@@ -91,6 +91,9 @@ class AuthController(http.Controller):
         email = request.params["email"]
         _logger.info(email)
 
+        user_test = request.env["res.partner"].search([("email", "=", email)])
+        _logger.info(user_test.user_ids)
+
         user = request.env["res.users"].search([('login', '=', email)])
         if not user:
             user = request.env["res.users"].search([('email', '=', email)])
