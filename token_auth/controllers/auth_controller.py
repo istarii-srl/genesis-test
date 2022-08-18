@@ -35,9 +35,6 @@ class AuthController(http.Controller):
                 user = self._prepare_user_data(partner_id, token)
 
                 _logger.info("TOKEN => " + str(AuthToken.decode(token.token)))
-                _logger.info("RES_USER => " + str(res_user))
-                _logger.info("RES_USER email => " + str(res_user.email))
-                _logger.info("RES_USER login => " + str(res_user.login))
                 _logger.info("USER => " + str(user))
                 _logger.info("SESSION ID => " + str(request.session.sid))
                 _logger.info("SESSION TOKEN => " + str(res_user._compute_session_token(request.session.sid)))
@@ -92,10 +89,6 @@ class AuthController(http.Controller):
     def recover_auth(self, **kwarg):
         _logger.info("CONTROLLER LOGIN => recover password")
         email = request.params["email"]
-        _logger.info(email)
-
-        user_test = request.env["res.partner"].search([("email", "=", email)])
-        _logger.info(str(user_test))
 
         user = request.env["res.users"].sudo().search([('login', '=', email)])
         if not user:
