@@ -98,7 +98,7 @@ class AuthController(http.Controller):
         user = request.env["res.users"].search([('login', '=', email)])
         if not user:
             user = request.env["res.users"].search([('email', '=', email)])
-        _logger.info(str(user).id)
+        _logger.info(str(user.id))
 
         if user:
             user.action_reset_password()
