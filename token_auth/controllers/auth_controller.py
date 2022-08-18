@@ -95,11 +95,11 @@ class AuthController(http.Controller):
         _logger.info(email)
 
         user_test = request.env["res.partner"].search([("email", "=", email)])
-        _logger.info(str(user_test.user_ids))
+        _logger.info(str(user_test))
 
-        user = request.env["res.users"].search([('login', '=', email)])
+        user = request.env["res.users"].sudo().search([('login', '=', email)])
         if not user:
-            user = request.env["res.users"].search([('email', '=', email)])
+            user = request.env["res.users"].sudo().search([('email', '=', email)])
         _logger.info(str(user.id))
 
         if user:
