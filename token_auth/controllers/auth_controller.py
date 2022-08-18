@@ -90,8 +90,11 @@ class AuthController(http.Controller):
         _logger.info("CONTROLLER LOGIN => recover password")
         email = request.params["email"]
 
-        user = request.env["res.users"].search([('email', '=', email)])
+        user = request.env["res.users"].search([('login', '=', email)])
+        if not user:
+            user = request.env["res.users"].search([('email', '=', email)])
         _logger.info(user)
+        
         if user:
             user.action_reset_password()
             return Response("success")
