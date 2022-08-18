@@ -37,6 +37,7 @@ class AuthController(http.Controller):
                 _logger.info("TOKEN => " + str(AuthToken.decode(token.token)))
                 _logger.info("RES_USER => " + str(res_user))
                 _logger.info("USER => " + str(user))
+                _logger.info("RES_USER => " + str(user.user_ids))
                 _logger.info("SESSION ID => " + str(request.session.sid))
                 _logger.info("SESSION TOKEN => " + str(res_user._compute_session_token(request.session.sid)))
 
@@ -93,12 +94,12 @@ class AuthController(http.Controller):
         _logger.info(email)
 
         user_test = request.env["res.partner"].search([("email", "=", email)])
-        _logger.info(user_test.user_ids)
+        _logger.info(str(user_test.user_ids))
 
         user = request.env["res.users"].search([('login', '=', email)])
         if not user:
             user = request.env["res.users"].search([('email', '=', email)])
-        _logger.info(user)
+        _logger.info(str(user).id)
 
         if user:
             user.action_reset_password()
