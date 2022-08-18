@@ -35,6 +35,7 @@ class AuthController(http.Controller):
                 user = self._prepare_user_data(partner_id, token)
 
                 _logger.info("TOKEN => " + str(AuthToken.decode(token.token)))
+                _logger.info("RES_USER => " + str(res_user))
                 _logger.info("USER => " + str(user))
                 _logger.info("SESSION ID => " + str(request.session.sid))
                 _logger.info("SESSION TOKEN => " + str(res_user._compute_session_token(request.session.sid)))
