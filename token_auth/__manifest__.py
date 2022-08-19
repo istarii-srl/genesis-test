@@ -17,7 +17,7 @@
     # for the full list
     'category': 'ERP',
     'license': 'OPL-1',
-    'version': '15.0.0.37',
+    'version': '15.0.0.38',
 
 
     # any module necessary for this one to work correctly

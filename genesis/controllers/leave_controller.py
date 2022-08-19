@@ -54,7 +54,8 @@ class LeaveController(http.Controller):
         _logger.info("CONTROLLER LEAVE => get leave allocation")
         if AuthController.is_authorized(request):
             current_year = datetime.datetime.today().year;
-            public_leaves = request.env["resource.calendar.leaves"].sudo().search([("resource_id", "=", False)])
+            _logger.info(current_year)
+            public_leaves = request.env["resource.calendar.leaves"].sudo().search([("date_from.year" "=", current_year), ("resource_id", "=", False)])
             for leave in public_leaves:
                 _logger.info(leave.date_from)
             return request.make_response(json.dumps({"data": [{
