@@ -42,9 +42,9 @@ class AuthController(http.Controller):
                 if user["has_access_extranet"]:
                     response = request.make_response(json.dumps({"user": user, "session_id": request.session.sid}), headers=[("Access-Control-Allow-Headers", "*"), ("Content-Type", "text/html; charset=utf-8"), ("Access-Control-Allow-Origin", "*")])
                     return response
-                return Response("forbidden", status="404")
+                return Response("forbidden", status="418")
 
-        return Response("Unauthorized", status="401")
+        return Response("Unauthorized", status="403")
 
     @http.route("/auth/recover", type="http", auth="public", csrf=False, cors="*")
     def recover_auth(self, **kwarg):
