@@ -24,6 +24,7 @@ class Partner(models.Model):
             }
             if len(partner.employee_ids) == 1:
                 data['employee_id'] = partner.employee_ids[0].id
+                data['has_access_extranet'] = partner.employee_ids[0].department_id.has_access_to_extranet
             else:
                 data['employee_id'] = -1
             return data
