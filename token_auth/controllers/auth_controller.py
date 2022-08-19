@@ -39,8 +39,10 @@ class AuthController(http.Controller):
                 _logger.info("SESSION ID => " + str(request.session.sid))
                 _logger.info("SESSION TOKEN => " + str(res_user._compute_session_token(request.session.sid)))
 
-                response = request.make_response(json.dumps({"user": user, "session_id": request.session.sid}), headers=[("Access-Control-Allow-Headers", "*"), ("Content-Type", "text/html; charset=utf-8"), ("Access-Control-Allow-Origin", "*")])
-                return response
+                if user["has_access_extranet"]:
+                    response = request.make_response(json.dumps({"user": user, "session_id": request.session.sid}), headers=[("Access-Control-Allow-Headers", "*"), ("Content-Type", "text/html; charset=utf-8"), ("Access-Control-Allow-Origin", "*")])
+                    return response
+                return Response("Forbidden", status_code=403)
 
         return Response("Unauthorized", status_code=401)
 
