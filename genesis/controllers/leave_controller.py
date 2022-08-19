@@ -56,7 +56,7 @@ class LeaveController(http.Controller):
             public_leaves = request.env["resource.calendar.leaves"].sudo().search([("resource_id", "=", False)])
             for leave in public_leaves:
                 _logger.info(leave.date_from)
-            return request.make_response(json.dumps({"data": []}))
+            return request.make_response(json.dumps({"data": public_leaves}))
 
         return Response("Unauthorized", status=401)
 
