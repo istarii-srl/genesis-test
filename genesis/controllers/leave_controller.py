@@ -1,5 +1,6 @@
 import json
 import logging
+from operator import le
 from odoo import http
 from odoo.http import request, Response
 from odoo.tools import date_utils
@@ -54,17 +55,9 @@ class LeaveController(http.Controller):
         _logger.info("CONTROLLER LEAVE => get leave allocation")
         if AuthController.is_authorized(request):
             current_year = datetime.datetime.today().year;
-            first_day_current_year = datetime.datetime(current_year, 1, 1)
-            _logger.info(current_year)
-            public_leaves = request.env["resource.calendar.leaves"].sudo().search([("date_from.year", ">=", current_year), ("resource_id", "=", False)])
-            for leave in public_leaves:
-                _logger.info(leave.date_from)
-            return request.make_response(json.dumps({"data": [{
-                "id": leave.id,
-                "name": leave.name,
-                "date_from": date_utils.json_default(leave.date_from),
-                "date_to": date_utils.json_default(leave.date_to),
-            } for leave in public_leaves]}))
+            public_leaves = request.env["resource.calendar.leaves"].sudo().search([("year", ">=", current_year), ("resource_id", "=", False)])
+
+            return request.make_response(json.dumps({"data": [leave.to_map() for leave in public_leaves]}))
 
         return Response("Unauthorized", status=401)
 
