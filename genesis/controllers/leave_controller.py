@@ -54,7 +54,8 @@ class LeaveController(http.Controller):
         if AuthController.is_authorized(request):
             current_year = datetime.datetime.today().year;
             public_leaves = request.env["resource.calendar.leaves"].sudo().search([("resource_id", "=", False)])
-            _logger.info(public_leaves)
+            for leave in public_leaves:
+                _logger.info(leave.date_from)
             return request.make_response(json.dumps({"data": []}))
 
         return Response("Unauthorized", status=401)
