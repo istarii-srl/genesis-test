@@ -6,7 +6,7 @@
         <field name="model">hr.department</field>
         <field name="inherit_id" ref="hr.view_department_form"/>
         <field name="arch" type="xml">
-            <field name="parent-id" position="after">
+            <field name="parent_id" position="after">
                 <field name="has_access_to_extranet"/>
             </field>
         </field>
