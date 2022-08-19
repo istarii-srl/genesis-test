@@ -20,7 +20,7 @@ class TimesheetController(http.Controller):
             timesheet_ids = request.env['account.analytic.line'].sudo().search(query)
             return request.make_response(json.dumps({"data": [timesheet.to_map() for timesheet in timesheet_ids]}))
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)
 
 
     @http.route("/timesheet/save_provisional/<int:employee_id>/<string:date_month>", type="http", auth="public", csrf=False, cors="*")
@@ -48,7 +48,7 @@ class TimesheetController(http.Controller):
                 timesheet_id.linked_provisional_id = provisional
             return request.make_response(json.dumps({"status": True}))
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)
 
 
     @http.route("/timesheet/create/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
@@ -77,7 +77,7 @@ class TimesheetController(http.Controller):
                 new_entry = request.env['account.analytic.line'].sudo().create(vals)
             return request.make_response(json.dumps({'status': True}))
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)
 
 
     @staticmethod

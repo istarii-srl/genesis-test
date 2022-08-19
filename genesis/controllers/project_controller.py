@@ -20,4 +20,4 @@ class ProjectController(http.Controller):
                 projects |= set([project for project in order.project_ids if not project.stage_id.is_inactivity])
             return request.make_response(json.dumps({"data": [project.to_map() for project in projects]}))
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)

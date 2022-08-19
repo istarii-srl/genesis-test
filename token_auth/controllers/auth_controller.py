@@ -59,9 +59,9 @@ class AuthController(http.Controller):
                 user = self._prepare_user_data(partner_id, token_db)
                 return request.make_response(json.dumps({"user": user}))
 
-            return Response("Bad request", status_code=404)
+            return Response("Bad request", status=404)
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)
     
     def _prepare_user_data(self, partner_id, token):
         data = partner_id.sudo().to_map()
@@ -78,7 +78,7 @@ class AuthController(http.Controller):
           token_db = request.env["auth.token"].sudo().search([("user_id", "=", res_user.id)], limit=1)
           if token_db:
             return AuthToken.decode(token_db.token) == token
-      return Response("Unauthorized", status_code=401)
+      return Response("Unauthorized", status=401)
 
     def get_uid(request):
       return AuthToken.decode(request.httprequest.headers["Authorization"])["uid"]
@@ -88,7 +88,7 @@ class AuthController(http.Controller):
 
     
     @http.route("/auth/recover_password", type="http", auth="public", csrf=False, cors="*")
-    def recover_auth(self, **kwarg):
+    def recover_password(self, **kwarg):
         _logger.info("CONTROLLER LOGIN => recover password")
         email = request.params["email"]
 
