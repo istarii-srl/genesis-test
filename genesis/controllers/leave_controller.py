@@ -2,6 +2,7 @@ import json
 import logging
 from odoo import http
 from odoo.http import request, Response
+from odoo.tools import date_utils
 from ...token_auth.controllers.auth_controller import AuthController
 from dateutil import parser
 import datetime
@@ -19,7 +20,8 @@ class LeaveController(http.Controller):
             leave_types = request.env['hr.leave.type'].sudo().search([])
             return request.make_response(json.dumps({"data": [leave_type.to_map() for leave_type in leave_types]}))
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)
+
 
     @http.route("/leave/get_allocations/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
     def get_allocations(self, employee_id):
@@ -44,7 +46,27 @@ class LeaveController(http.Controller):
                 data.append({'leave': leave_type.to_map(), 'taken': taken, 'allocated': allocated})
             return request.make_response(json.dumps({"data": data}))
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)
+
+
+    @http.route("/leave/get_public", type="http", auth="public", csrf=False, cors="*")
+    def get_public_leaves(self):
+        _logger.info("CONTROLLER LEAVE => get leave allocation")
+        if AuthController.is_authorized(request):
+            current_year = datetime.datetime.today().year;
+            first_day_current_year = datetime.datetime(current_year, 1, 1)
+            _logger.info(current_year)
+            public_leaves = request.env["resource.calendar.leaves"].sudo().search([("date_from.year", ">=", current_year), ("resource_id", "=", False)])
+            for leave in public_leaves:
+                _logger.info(leave.date_from)
+            return request.make_response(json.dumps({"data": [{
+                "id": leave.id,
+                "name": leave.name,
+                "date_from": date_utils.json_default(leave.date_from),
+                "date_to": date_utils.json_default(leave.date_to),
+            } for leave in public_leaves]}))
+
+        return Response("Unauthorized", status=401)
 
 
     @http.route("/leave/create/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
@@ -64,4 +86,4 @@ class LeaveController(http.Controller):
                 })
             return request.make_response(json.dumps({"status": True})) 
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status=401)
