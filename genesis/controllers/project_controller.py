@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class ProjectController(http.Controller):
 
     @http.route("/project/get_projects_for/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def get_active_project_for_user(self, employee_id):
+    def get_active_projects_for_user(self, employee_id):
         _logger.info("CONTROLLER PROJECT => get projects for employee_id")
         if AuthController.is_authorized(request):
 
@@ -19,5 +19,19 @@ class ProjectController(http.Controller):
             for order in orders:
                 projects |= set([project for project in order.project_ids if not project.stage_id.is_inactivity])
             return request.make_response(json.dumps({"data": [project.to_map() for project in projects]}))
+
+        return Response("Unauthorized", status_code=401)
+
+    @http.route("/project/create_task/<int:project_id>", type="http", auth="public", csrf=False, cors="*")
+    def create_task_in_project(self, project_id):
+        _logger.info("CONTROLLER PROJECT => get projects for employee_id")
+        if AuthController.is_authorized(request):
+            data = json.loads(request.params['entries'])
+            values = {
+                'name': data['name'],
+                'project_id': project_id,
+            }
+            new_task = request.env['project.task'].sudo().create(values)
+            return request.make_response(json.dumps(new_task.to_map()))
 
         return Response("Unauthorized", status_code=401)
