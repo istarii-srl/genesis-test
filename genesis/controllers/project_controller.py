@@ -24,9 +24,9 @@ class ProjectController(http.Controller):
 
     @http.route("/project/create_task/<int:project_id>", type="http", auth="public", csrf=False, cors="*")
     def create_task_in_project(self, project_id):
-        _logger.info("CONTROLLER PROJECT => get projects for employee_id")
+        _logger.info("CONTROLLER PROJECT => create task for project")
         if AuthController.is_authorized(request):
-            data = json.loads(request.params['entries'])
+            data = json.loads(request.params['data'])
             values = {
                 'name': data['name'],
                 'project_id': project_id,
