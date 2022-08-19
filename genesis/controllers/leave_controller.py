@@ -2,6 +2,7 @@ import json
 import logging
 from odoo import http
 from odoo.http import request, Response
+from odoo.tools import date_utils
 from ...token_auth.controllers.auth_controller import AuthController
 from dateutil import parser
 import datetime
@@ -59,8 +60,8 @@ class LeaveController(http.Controller):
             return request.make_response(json.dumps({"data": [{
                 "id": leave.id,
                 "name": leave.name,
-                "date_from": leave.date_from,
-                "date_to": leave.date_to,
+                "date_from": date_utils.json_default(leave.date_from),
+                "date_to": date_utils.json_default(leave.date_to),
             } for leave in public_leaves]}))
 
         return Response("Unauthorized", status=401)
