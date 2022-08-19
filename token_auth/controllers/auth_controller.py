@@ -39,10 +39,12 @@ class AuthController(http.Controller):
                 _logger.info("SESSION ID => " + str(request.session.sid))
                 _logger.info("SESSION TOKEN => " + str(res_user._compute_session_token(request.session.sid)))
 
-                response = request.make_response(json.dumps({"user": user, "session_id": request.session.sid}), headers=[("Access-Control-Allow-Headers", "*"), ("Content-Type", "text/html; charset=utf-8"), ("Access-Control-Allow-Origin", "*")])
-                return response
+                if user["has_access_extranet"]:
+                    response = request.make_response(json.dumps({"user": user, "session_id": request.session.sid}), headers=[("Access-Control-Allow-Headers", "*"), ("Content-Type", "text/html; charset=utf-8"), ("Access-Control-Allow-Origin", "*")])
+                    return response
+                return Response("forbidden", status="418")
 
-        return Response("Unauthorized", status_code=401)
+        return Response("Unauthorized", status="403")
 
     @http.route("/auth/recover", type="http", auth="public", csrf=False, cors="*")
     def recover_auth(self, **kwarg):
@@ -83,3 +85,21 @@ class AuthController(http.Controller):
 
     def get_user_id(request):
       return AuthToken.decode(request.httprequest.headers["Authorization"])["user_id"]
+
+    
+    @http.route("/auth/recover_password", type="http", auth="public", csrf=False, cors="*")
+    def recover_auth(self, **kwarg):
+        _logger.info("CONTROLLER LOGIN => recover password")
+        email = request.params["email"]
+
+        user = request.env["res.users"].sudo().search([('login', '=', email)])
+        if not user:
+            user = request.env["res.users"].sudo().search([('email', '=', email)])
+        _logger.info(str(user.id))
+
+        if user:
+            user.action_reset_password()
+            return Response("success")
+            
+        return Response("fail")
+        
