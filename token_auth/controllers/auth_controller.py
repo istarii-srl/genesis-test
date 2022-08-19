@@ -42,7 +42,7 @@ class AuthController(http.Controller):
                 if user["has_access_extranet"]:
                     response = request.make_response(json.dumps({"user": user, "session_id": request.session.sid}), headers=[("Access-Control-Allow-Headers", "*"), ("Content-Type", "text/html; charset=utf-8"), ("Access-Control-Allow-Origin", "*")])
                     return response
-                return Response("forbidden", status="403")
+                return Response("forbidden", status="404")
 
         return Response("Unauthorized", status="401")
 
