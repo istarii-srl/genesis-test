@@ -10,4 +10,3 @@ from . import hr_leave
 from . import hr_leave_type
 from . import provisional_timesheet_line
 from . import hr_department
-from . import resource_calendar_leaves
