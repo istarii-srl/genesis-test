@@ -88,7 +88,7 @@ class AuthController(http.Controller):
 
     
     @http.route("/auth/recover_password", type="http", auth="public", csrf=False, cors="*")
-    def recover_auth(self, **kwarg):
+    def recover_password(self, **kwarg):
         _logger.info("CONTROLLER LOGIN => recover password")
         email = request.params["email"]
 
