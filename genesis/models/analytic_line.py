@@ -16,7 +16,7 @@ class AnalyticLine(models.Model):
             data['leave'] = self.holiday_id.to_map()
         elif self.project_id:
             data['project'] = self.project_id.to_map()
-        elif self.task_id:
+        else:
             data['task'] = self.task_id.to_map()
             
         
