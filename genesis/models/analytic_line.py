@@ -10,10 +10,10 @@ class AnalyticLine(models.Model):
 
     def to_map(self):
         for line in self:
-            _logger.info(line);
             _logger.info("holiday => " + str(line.holiday_id));
             _logger.info("task => " + str(line.task_id))
             _logger.info("project => " + str(line.project_id))
+            _logger.info("======================================")
             data = {
                 'id': line.id,
                 'date': line.date.strftime('%Y-%m-%d'),
@@ -25,4 +25,7 @@ class AnalyticLine(models.Model):
                 data['task'] = line.task_id.to_map()
             else:
                 data['project'] = line.project_id.to_map()
+            _logger.info(data)
+            _logger.info("======================================")
+            _logger.info("======================================")
             return data
