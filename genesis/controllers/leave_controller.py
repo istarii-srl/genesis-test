@@ -70,13 +70,14 @@ class LeaveController(http.Controller):
             new_entries = json.loads(request.params['entries'])
             for new_entry in new_entries:
                 _logger.info(new_entry)
-                request.env['hr.leave'].sudo().create({
+                leave = request.env['hr.leave'].sudo().create({
                     'employee_id': employee_id,
                     'holiday_status_id': new_entry['leave']['type_id'],
                     'date_from': parser.parse(new_entry['date']).replace(hour=7),
                     'date_to': parser.parse(new_entry['date']).replace(hour=17),
                     'state': 'validate',
                 })
+                _logger.info(leave)
             return request.make_response(json.dumps({"status": True})) 
 
         return Response("Unauthorized", status=401)
