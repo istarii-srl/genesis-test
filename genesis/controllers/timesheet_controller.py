@@ -18,6 +18,7 @@ class TimesheetController(http.Controller):
         if AuthController.is_authorized(request):
             query = TimesheetController.get_base_query(employee_id, date_month)
             timesheet_ids = request.env['account.analytic.line'].sudo().search(query)
+            _logger.info([timesheet.to_map() for timesheet in timesheet_ids])
             return request.make_response(json.dumps({"data": [timesheet.to_map() for timesheet in timesheet_ids]}))
 
         return Response("Unauthorized", status=401)
