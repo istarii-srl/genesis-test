@@ -15,7 +15,7 @@
     # for the full list
     'category': 'ERP',
     'license': 'OPL-1',
-    'version': '15.0.0.106',
+    'version': '15.0.0.107',
 
 
 
