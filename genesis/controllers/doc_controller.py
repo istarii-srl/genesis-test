@@ -38,9 +38,12 @@ class DocController(http.Controller):
                 "name": doc["user"]["name"],
             })
         
-        return request.env["documents.document"].sudo().create({
-                    "display_name": doc["name"],
+        doc_id = request.env["documents.document"].sudo().create({
+                    # "display_name": doc["name"],
                     "datas": doc["bytes"],
                     "partner_id": doc["user"]["id"],
                     "folder_id": workspace.id,
                 })
+
+        att_id = request.env['ir.attachment'].sudo().browse(doc_id.attachment_id.id)
+        att_id.name = doc["name"]
