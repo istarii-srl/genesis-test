@@ -35,12 +35,12 @@ class LeaveController(http.Controller):
                 leave_type = allocation_id.holiday_status_id
                 nb_of_days_allocated = allocation_id.number_of_days
                 nb_days_taken = sum(taken_leave.number_of_days for taken_leave in allocation_id.taken_leave_ids\
-                    if taken_leave.state == 'validate')
+                    if taken_leave.state in ['validate', 'validate1'])
                 
                 total_taken, total_allocated = allocations.get(leave_type, (0, 0))
                 total_allocated += nb_of_days_allocated
                 total_taken += nb_days_taken
-                allocations[leave_type] = allocations[leave_type] = (total_taken, total_allocated)
+                allocations[leave_type] = (total_taken, total_allocated)
             data = []
             for leave_type in allocations.keys():
                 taken, allocated = allocations[leave_type]
