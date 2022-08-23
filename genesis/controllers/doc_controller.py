@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class DocController(http.Controller):
 
     @http.route("/doc/upload/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def upload_doc(self, employee_id):
+    def upload_doc(self, employee_id, **kwargs):
         _logger.info("CONTROLLER DOC => upload")
         if AuthController.is_authorized(request):
             doc = json.loads(request.params["doc"])
