@@ -24,24 +24,20 @@ class DocController(http.Controller):
         return Response("Unauthorized", status=401)
 
     def create_new_doc(self, request, doc):
-        parent_workspace = request.env["documents.folder"].sudo().search([("name", "=", "HR")])
-        if not parent_workspace:
-            parent_workspace = request.env["documents.document"].sudo().create({
-                "name": "HR",
-            })
+        user = request.env["res.partner"].browse(doc["user"]["id"])
+        if not user.folder_id:
+            user_folder = request.env["documents.folder"].sudo().search([("name", "=", user.name)])
+            if not user_folder:
+                user_folder = request.env["documents.document"].sudo().create({
+                    "name": user.name,
+                })
+            user.folder_id = user_folder.id
         
-        workspace = request.env["documents.folder"].sudo().search([("parent_folder_id", "=", parent_workspace.id), ("name", "=", doc["user"]["name"])])
-        if not workspace:
-            workspace = request.env["documents.document"].sudo().create({
-                "parent_folder_id": parent_workspace.id,
-                "name": doc["user"]["name"],
-            })
-        
-        doc_id = request.env["documents.document"].sudo().create({
+        doc = request.env["documents.document"].sudo().create({
                     "datas": doc["bytes"],
                     "partner_id": doc["user"]["id"],
-                    "folder_id": workspace.id,
+                    "folder_id": user.folder_id.id,
                 })
 
-        attachment_id = request.env['ir.attachment'].sudo().browse(doc_id.attachment_id.id)
-        attachment_id.name = doc["name"]
+        attachment = request.env['ir.attachment'].sudo().browse(doc.attachment.id)
+        attachment.name = doc["name"]
