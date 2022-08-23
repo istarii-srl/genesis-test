@@ -8,13 +8,13 @@ _logger = logging.getLogger(__name__)
 
 class DocController(http.Controller):
 
-    @http.route("/doc/upload", type="http", auth="public", csrf=False, cors="*")
-    def upload_doc(self):
+    @http.route("/doc/upload/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
+    def upload_doc(self, employee_id):
         _logger.info("CONTROLLER DOC => upload")
         if AuthController.is_authorized(request):
             doc = json.loads(request.params["doc"])
             try:
-                self.create_new_doc(request, doc)
+                self.create_new_doc(request, doc, employee_id)
                 return request.make_response(json.dumps("Success"))
             
             except Exception as e:
@@ -23,20 +23,20 @@ class DocController(http.Controller):
 
         return Response("Unauthorized", status=401)
 
-    def create_new_doc(self, request, doc):
-        user = request.env["hr.employee"].browse(doc["user"]["id"])
-        if not user.folder_id:
-            user_folder = request.env["documents.folder"].sudo().search([("name", "=", user.name)])
-            if not user_folder:
-                user_folder = request.env["documents.document"].sudo().create({
-                    "name": user.name,
+    def create_new_doc(self, request, doc, employee_id):
+        employee = request.env["hr.employee"].sudo().browse(employee_id)
+        if not employee.folder_id:
+            employee_folder = request.env["documents.folder"].sudo().search([("name", "=", employee.name)])
+            if not employee_folder:
+                employee_folder = request.env["documents.document"].sudo().create({
+                    "name": employee.name,
                 })
-            user.folder_id = user_folder.id
+            employee.folder_id = employee_folder.id
         
         doc = request.env["documents.document"].sudo().create({
                     "datas": doc["bytes"],
-                    "partner_id": doc["user"]["id"],
-                    "folder_id": user.folder_id.id,
+                    "partner_id": employee.address_home_id.id,
+                    "folder_id": employee.folder_id.id,
                 })
 
         attachment = request.env['ir.attachment'].sudo().browse(doc.attachment.id)
