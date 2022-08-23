@@ -39,7 +39,7 @@ class DocController(http.Controller):
             })
         
         return request.env["documents.document"].sudo().create({
-                    "display_name": doc["user"].name,
+                    "display_name": doc["name"],
                     "datas": doc["bytes"],
                     "partner_id": doc["user"].id,
                     "folder_id": workspace.id,
