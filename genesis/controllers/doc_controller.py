@@ -23,3 +23,10 @@ class DocController(http.Controller):
                 return Response("Could not upload doc", status=404)
 
         return Response("Unauthorized", status=401)
+
+    def create_new_doc(self, request, doc):
+      return request.env["documents.document"].sudo().create({
+                    "display_name": doc["name"],
+                    "datas": doc["bytes"],
+                    "partner_id": doc["userId"],
+                })
