@@ -12,6 +12,7 @@ class HrEmployeePrivate(models.Model):
         'res.partner', 'Contact lié', help='Enter here the private address of the employee, not the one linked to your company.',
         groups="hr.group_hr_user", tracking=True,
         domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")
+    folder_id = fields.Many2one(string="Répertoire des documents", comodel_name="documents.folder")
 
     @api.constrains('address_home_id')
     def ensure_single_contact(self):
