@@ -102,6 +102,19 @@ class TimesheetController(http.Controller):
 
         return Response("Unauthorized", status=401)
 
+
+    @http.route("/timesheet/delete", type="http", auth="public", csrf=False, cors="*")
+    def delete_timesheet_entry(self):
+        _logger.info("CONTROLLER TIMESHEET => delete timesheet entry")
+
+        if AuthController.is_authorized(request):
+            entry = json.loads(request.params['data'])
+            timesheet_id = request.env['account.analytic.line'].sudo().browse(entry['id'])
+            timesheet_id.unlink()
+            return request.make_response(json.dumps({'status': True}))
+
+        return Response("Unauthorized", status=401)
+
     @staticmethod
     def _convert_days_to_hours(days):
         uom_hour = request.env.ref('uom.product_uom_hour').sudo()

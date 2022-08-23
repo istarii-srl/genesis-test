@@ -69,14 +69,55 @@ class LeaveController(http.Controller):
 
             new_entries = json.loads(request.params['entries'])
             for new_entry in new_entries:
-                _logger.info(new_entry)
-                leave = request.env['hr.leave'].sudo().create({
-                    'employee_id': employee_id,
-                    'holiday_status_id': new_entry['leave']['type_id'],
-                    'date_from': parser.parse(new_entry['date']).replace(hour=7),
-                    'date_to': parser.parse(new_entry['date']).replace(hour=17),
-                    'state': 'validate',
-                })
+                self._create_leave(employee_id, new_entry)
             return request.make_response(json.dumps({"status": True})) 
 
         return Response("Unauthorized", status=401)
+
+    def _create_leave(self, employee_id, data):
+        leave = request.env['hr.leave'].sudo().create({
+            'employee_id': employee_id,
+            'holiday_status_id': data['leave']['type_id'],
+            'date_from': parser.parse(data['date']).replace(hour=7),
+            'date_to': parser.parse(data['date']).replace(hour=17),
+            'state': 'validate',
+        })
+        return leave
+    
+    @http.route("/leave/update/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
+    def update_leave(self, employee_id):
+        _logger.info("CONTROLLER LEAVE => update")
+        if AuthController.is_authorized(request):
+
+            entry = json.loads(request.params['data'])
+            self._delete_leave(entry['leave']['id'])
+            self._create_leave(employee_id, entry)
+            return request.make_response(json.dumps({"status": True})) 
+
+        return Response("Unauthorized", status=401)
+
+
+    @http.route("/leave/delete", type="http", auth="public", csrf=False, cors="*")
+    def delete_leave(self):
+        _logger.info("CONTROLLER LEAVE => delete")
+        if AuthController.is_authorized(request):
+            
+            entry = json.loads(request.params['data'])
+            self._delete_leave(entry['leave']['id'])
+            return request.make_response(json.dumps({"status": True})) 
+
+        return Response("Unauthorized", status=401)
+
+    def _delete_leave(self, leave_id):
+        leave = request.env['hr.leave'].sudo().browse(leave_id)
+        if leave.state in ['confirm', 'validate', 'validate1']:
+            leave.action_refuse()
+        if leave.state == 'refuse':
+            leave.action_draft()
+        if leave.state == 'draft':
+            leave.unlink()
+
+        
+
+
+    
