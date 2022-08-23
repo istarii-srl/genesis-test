@@ -81,6 +81,27 @@ class TimesheetController(http.Controller):
         return Response("Unauthorized", status=401)
 
 
+    @http.route("/timesheet/update/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
+    def update_timesheet_entry(self, employee_id):
+        _logger.info("CONTROLLER TIMESHEET => update timesheet entry")
+
+        if AuthController.is_authorized(request):
+            entry = json.loads(request.params['data'])
+            timesheet_id = request.env['account.analytic.line'].sudo().browse(entry['id'])
+            project_id = entry['project_id']
+            so_line = request.env['sale.order.line'].sudo().search([('project_id', '=', project_id), ('employee_ids', 'in', employee_id)], limit=1)
+            values = {
+                'date': parser.parse(entry['date']).date(),
+                'project_id': project_id,
+                'task_id': entry['task_id'] if 'task_id' in entry else False,
+                'unit_amount': TimesheetController._convert_days_to_hours(entry['duration']),
+                'so_line': so_line.id,
+            }
+            timesheet_id.update(values)
+            return request.make_response(json.dumps({'status': True}))
+
+        return Response("Unauthorized", status=401)
+
     @staticmethod
     def _convert_days_to_hours(days):
         uom_hour = request.env.ref('uom.product_uom_hour').sudo()
