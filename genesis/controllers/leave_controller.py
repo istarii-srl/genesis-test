@@ -113,7 +113,8 @@ class LeaveController(http.Controller):
         if leave.state == 'refuse':
             leave.action_draft()
         if leave.state == 'draft':
-            leave.sudo().unlink()
+            leave_sudo = leave.sudo()
+            leave_sudo.unlink()
 
         
 
