@@ -24,7 +24,7 @@ class DocController(http.Controller):
         return Response("Unauthorized", status=401)
 
     def create_new_doc(self, request, doc):
-        user = request.env["res.partner"].browse(doc["user"]["id"])
+        user = request.env["hr.employee"].browse(doc["user"]["id"])
         if not user.folder_id:
             user_folder = request.env["documents.folder"].sudo().search([("name", "=", user.name)])
             if not user_folder:
