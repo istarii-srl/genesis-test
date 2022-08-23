@@ -109,14 +109,8 @@ class LeaveController(http.Controller):
     def _delete_leave(self, leave_id):
         leave = request.env['hr.leave'].sudo().browse(leave_id)
         if leave.state in ['confirm', 'validate', 'validate1']:
-            leave.action_refuse()
+            leave.sudo().action_refuse()
         if leave.state == 'refuse':
-            leave.action_draft()
+            leave.sudo().action_draft()
         if leave.state == 'draft':
-            leave_sudo = leave.sudo()
-            leave_sudo.unlink()
-
-        
-
-
-    
+            leave.sudo().unlink()
