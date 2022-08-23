@@ -42,7 +42,8 @@ class DocController(http.Controller):
         attachment = request.env['ir.attachment'].sudo().browse(doc.attachment_id.id)
         attachment.name = doc["name"]
 
-        _logger.info(doc.name)
-        _logger.info(attachment)
-        _logger.info(attachment.name)
-        _logger.info(doc.attachment_id.name)
+        _logger.info("doc['name'] => " + doc["name"])
+        _logger.info("doc.name => " + doc.name)
+        _logger.info("attachment => " + str(attachment))
+        _logger.info("attachment.name => " + attachment.name)
+        _logger.info("doc.attachment_id.name => " + doc.attachment_id.name)
