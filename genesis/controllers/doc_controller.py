@@ -39,5 +39,5 @@ class DocController(http.Controller):
                     "folder_id": employee.folder_id.id,
                 })
 
-        attachment = request.env['ir.attachment'].sudo().browse(doc.attachment.id)
+        attachment = request.env['ir.attachment'].sudo().browse(doc.attachment_id.id)
         attachment.name = doc["name"]
