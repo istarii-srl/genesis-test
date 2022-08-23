@@ -33,17 +33,11 @@ class DocController(http.Controller):
                 })
             employee.folder_id = employee_folder.id
         
-        doc = request.env["documents.document"].sudo().create({
+        new_doc = request.env["documents.document"].sudo().create({
                     "datas": doc["bytes"],
                     "partner_id": employee.address_home_id.id,
                     "folder_id": employee.folder_id.id,
                 })
 
-        attachment = request.env['ir.attachment'].sudo().browse(doc.attachment_id.id)
+        attachment = request.env['ir.attachment'].sudo().browse(new_doc.attachment_id.id)
         attachment.name = doc["name"]
-
-        _logger.info("doc['name'] => " + doc["name"])
-        _logger.info("doc.name => " + doc.name)
-        _logger.info("attachment => " + str(attachment))
-        _logger.info("attachment.name => " + attachment.name)
-        _logger.info("doc.attachment_id.name => " + doc.attachment_id.name)
