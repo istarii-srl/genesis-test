@@ -66,12 +66,23 @@
         </field>
     </record>
 
-    <record id="genenesis_hr_employee_view_form_inherit_employee" model="ir.ui.view">
+    <record id="genenesis_hr_employee_view_form" model="ir.ui.view">
         <field name="name">genesis.hr.employee.form</field>
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <field name="work_email" position="after">
+                <field name="folder_id"/>
+            </field>
+        </field>
+    </record>
+
+    ><record id="genenesis_hr_employee_view_tree" model="ir.ui.view">
+        <field name="name">genesis.hr.employee.tree</field>
+        <field name="model">hr.employee/field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <field name="category_ids" position="after">
                 <field name="folder_id"/>
             </field>
         </field>
