@@ -15,7 +15,7 @@ class DocController(http.Controller):
             doc = json.loads(request.params["doc"])
             try:
                 self.create_new_doc(request, doc, employee_id)
-                return request.make_response(json.dumps("Success"))
+                return request.make_response(json.dumps({"data": "Success"}))
             
             except Exception as e:
                 _logger.info(e)
