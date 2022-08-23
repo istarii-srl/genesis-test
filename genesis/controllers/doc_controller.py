@@ -25,16 +25,21 @@ class DocController(http.Controller):
         return Response("Unauthorized", status=401)
 
     def create_new_doc(self, request, doc):
-        workspace = request.env["documents.folder"].sudo().search([("parent_folder_id.name", "=", "HR"), ("name", "=", doc["user"].name)])
+        parent_workspace = request.env["documents.folder"].sudo().search([("name", "=", "HR")])
+        if not parent_workspace:
+            parent_workspace = request.env["documents.document"].sudo().create({
+                "name": "HR",
+            })
         
+        workspace = request.env["documents.folder"].sudo().search([("parent_folder_id", "=", parent_workspace.id), ("name", "=", doc["user"].name)])
         if not workspace:
             workspace = request.env["documents.document"].sudo().create({
-                "parent_folder_id": request.env["documents.folder"].sudo().search([("parent_folder_id.name", "=", "HR")]).id,
+                "parent_folder_id": parent_workspace.id,
                 "name": doc["user"].name,
             })
         
         return request.env["documents.document"].sudo().create({
-                    "display_name": doc["name"],
+                    "display_name": doc["user"].name,
                     "datas": doc["bytes"],
                     "partner_id": doc["user"].id,
                     "folder_id": workspace.id,
