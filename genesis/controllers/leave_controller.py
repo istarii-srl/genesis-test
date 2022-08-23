@@ -77,7 +77,6 @@ class LeaveController(http.Controller):
                     'date_to': parser.parse(new_entry['date']).replace(hour=17),
                     'state': 'validate',
                 })
-                _logger.info(leave)
             return request.make_response(json.dumps({"status": True})) 
 
         return Response("Unauthorized", status=401)
