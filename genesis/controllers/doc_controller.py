@@ -31,16 +31,16 @@ class DocController(http.Controller):
                 "name": "HR",
             })
         
-        workspace = request.env["documents.folder"].sudo().search([("parent_folder_id", "=", parent_workspace.id), ("name", "=", doc["user"].name)])
+        workspace = request.env["documents.folder"].sudo().search([("parent_folder_id", "=", parent_workspace.id), ("name", "=", doc["user"]["name"])])
         if not workspace:
             workspace = request.env["documents.document"].sudo().create({
                 "parent_folder_id": parent_workspace.id,
-                "name": doc["user"].name,
+                "name": doc["user"]["name"],
             })
         
         return request.env["documents.document"].sudo().create({
                     "display_name": doc["name"],
                     "datas": doc["bytes"],
-                    "partner_id": doc["user"].id,
+                    "partner_id": doc["user"]["id"],
                     "folder_id": workspace.id,
                 })
