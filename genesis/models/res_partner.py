@@ -25,7 +25,7 @@ class Partner(models.Model):
             if len(partner.employee_ids) == 1:
                 data['employee_id'] = partner.employee_ids[0].id
                 data['has_access_extranet'] = partner.employee_ids[0].department_id.has_access_to_extranet
-                data['use_previsionnal'] = partner.employee_ids[0].department_id.use_provisionnal
+                data['use_previsionnal'] = partner.employee_ids[0].department_id.use_previsionnal
             else:
                 data['employee_id'] = -1
             return data
