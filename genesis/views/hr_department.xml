@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="parent_id" position="after">
                 <field name="has_access_to_extranet"/>
+                <field name="use_previsionnel"
             </field>
         </field>
     </record>
