@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 class TimesheetController(http.Controller):
 
     @http.route("/timesheet/get_month_timesheets_for/<int:employee_id>/<string:date_month>", type="http", auth="public", csrf=False, cors="*")
-    def get_month_timesheets_for(self, employee_id, date_month):
+    def get_month_timesheets_for(self, employee_id, date_month, **kwargs):
         _logger.info("CONTROLLER TIMESHEET => get timesheets for employee_id and month")
         
         if AuthController.is_authorized(request):
@@ -25,7 +25,7 @@ class TimesheetController(http.Controller):
 
 
     @http.route("/timesheet/save_provisional/<int:employee_id>/<string:date_month>", type="http", auth="public", csrf=False, cors="*")
-    def save_provisional_for(self, employee_id, date_month):
+    def save_provisional_for(self, employee_id, date_month, **kwargs):
         _logger.info("CONTROLLER TIMESHEET => set provisional for employee_id and month")
         
         if AuthController.is_authorized(request):
@@ -53,7 +53,7 @@ class TimesheetController(http.Controller):
 
 
     @http.route("/timesheet/create/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def create_timesheet_entries(self, employee_id):
+    def create_timesheet_entries(self, employee_id, **kwargs):
         _logger.info("CONTROLLER TIMESHEET => create timesheet entry")
 
         if AuthController.is_authorized(request):
@@ -82,7 +82,7 @@ class TimesheetController(http.Controller):
 
 
     @http.route("/timesheet/update/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def update_timesheet_entry(self, employee_id):
+    def update_timesheet_entry(self, employee_id, **kwargs):
         _logger.info("CONTROLLER TIMESHEET => update timesheet entry")
 
         if AuthController.is_authorized(request):
@@ -104,7 +104,7 @@ class TimesheetController(http.Controller):
 
 
     @http.route("/timesheet/delete", type="http", auth="public", csrf=False, cors="*")
-    def delete_timesheet_entry(self):
+    def delete_timesheet_entry(self, **kwargs):
         _logger.info("CONTROLLER TIMESHEET => delete timesheet entry")
 
         if AuthController.is_authorized(request):

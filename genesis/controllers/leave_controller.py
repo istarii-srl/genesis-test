@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class LeaveController(http.Controller):
 
     @http.route("/leave/get_all_leave_types", type="http", auth="public", csrf=False, cors="*")
-    def get_all_leave_types(self):
+    def get_all_leave_types(self, **kwargs):
         _logger.info("CONTROLLER LEAVE => get all leave types")
         if AuthController.is_authorized(request):
 
@@ -25,7 +25,7 @@ class LeaveController(http.Controller):
 
 
     @http.route("/leave/get_allocations/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def get_allocations(self, employee_id):
+    def get_allocations(self, employee_id, **kwargs):
         _logger.info("CONTROLLER LEAVE => get leave allocation")
         if AuthController.is_authorized(request):
 
@@ -49,7 +49,7 @@ class LeaveController(http.Controller):
 
 
     @http.route("/leave/get_public", type="http", auth="public", csrf=False, cors="*")
-    def get_public_leaves(self):
+    def get_public_leaves(self, **kwargs):
         _logger.info("CONTROLLER LEAVE => get leave allocation")
         if AuthController.is_authorized(request):
             current_year = datetime.datetime.today().year;
@@ -61,7 +61,7 @@ class LeaveController(http.Controller):
 
 
     @http.route("/leave/create/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def create_leaves(self, employee_id):
+    def create_leaves(self, employee_id, **kwargs):
         _logger.info("CONTROLLER LEAVE => create")
         if AuthController.is_authorized(request):
 
@@ -82,7 +82,7 @@ class LeaveController(http.Controller):
         return leave
     
     @http.route("/leave/update/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def update_leave(self, employee_id):
+    def update_leave(self, employee_id, **kwargs):
         _logger.info("CONTROLLER LEAVE => update")
         if AuthController.is_authorized(request):
 
@@ -95,7 +95,7 @@ class LeaveController(http.Controller):
 
 
     @http.route("/leave/delete", type="http", auth="public", csrf=False, cors="*")
-    def delete_leave(self):
+    def delete_leave(self, **kwargs):
         _logger.info("CONTROLLER LEAVE => delete")
         if AuthController.is_authorized(request):
             

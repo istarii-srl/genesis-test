@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class ProjectController(http.Controller):
 
     @http.route("/project/get_projects_for/<int:employee_id>", type="http", auth="public", csrf=False, cors="*")
-    def get_active_projects_for_user(self, employee_id):
+    def get_active_projects_for_user(self, employee_id, **kwargs):
         _logger.info("CONTROLLER PROJECT => get projects for employee_id")
         if AuthController.is_authorized(request):
 
@@ -23,7 +23,7 @@ class ProjectController(http.Controller):
         return Response("Unauthorized", status=401)
 
     @http.route("/project/create_task/<int:project_id>", type="http", auth="public", csrf=False, cors="*")
-    def create_task_in_project(self, project_id):
+    def create_task_in_project(self, project_id, **kwargs):
         _logger.info("CONTROLLER PROJECT => create task for project")
         if AuthController.is_authorized(request):
             data = json.loads(request.params['data'])
