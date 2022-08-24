@@ -78,7 +78,6 @@ class LeaveController(http.Controller):
             'holiday_status_id': data['leave']['type_id'],
             'date_from': parser.parse(data['date']).replace(hour=7),
             'date_to': parser.parse(data['date']).replace(hour=17),
-            'state': 'validate',
         })
         return leave
     
